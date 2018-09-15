@@ -7,9 +7,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jetsly/umi-plugin/tree/master/@types/umi-locale"
+    "url": "https://github.com/jetsly/umi-plugin/tree/master/type/umi-locale"
   },
-  "homepage": "https://github.com/jetsly/umi-plugin/tree/master/@types/umi-locale",
+  "homepage": "https://github.com/jetsly/umi-plugin/tree/master/type/umi-locale",
   "bugs": {
     "url": "https://github.com/jetsly/umi-plugin/issues"
   },
