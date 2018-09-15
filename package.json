@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "umi-plugin",
+  "version": "0.1.0",
+  "workspaces": [
+    "@type/*",
+    "packages/*"
+  ],
+  "repository": "git@github.com:Jetsly/umi-plugin.git",
+  "license": "MIT"
+}

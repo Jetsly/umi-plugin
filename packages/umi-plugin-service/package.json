@@ -1,0 +1,44 @@
+{
+  "name": "umi-plugin-service",
+  "version": "0.1.0",
+  "description": "A umi plugin for provide service function.",
+  "main": "./lib/index.js",
+  "authors": [
+    "jetsly <cnljli@live.com (https://github.com/jetsly)"
+  ],
+  "scripts": {
+    "test": "ts-mocha  src/**/*.spec.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jetsly/umi-plugin/tree/master/packages/umi-plugin-service"
+  },
+  "homepage": "https://github.com/jetsly/umi-plugin/tree/master/packages/umi-plugin-service",
+  "bugs": {
+    "url": "https://github.com/jetsly/umi-plugin/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src",
+    "template"
+  ],
+  "keywords": [
+    "umi"
+  ],
+  "dependencies": {
+    "@umi/service": "^0.1.0",
+    "axios": "^0.18.0",
+    "js-yaml": "^3.12.0",
+    "mustache": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^3.11.2",
+    "@types/mocha": "^5.2.5",
+    "@types/mustache": "^0.8.31",
+    "@types/node": "^10.9.4",
+    "mocha": "^5.2.0",
+    "ts-mocha": "^2.0.0",
+    "typescript": "^3.0.3"
+  }
+}

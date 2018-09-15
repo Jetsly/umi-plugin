@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["es6", "es7"]
+  },
+  "include": ["./src/**/*"]
+}

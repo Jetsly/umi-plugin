@@ -1,0 +1,6 @@
+login:
+  method: POST
+  url: /login/{orderId}
+
+logout:
+  url: /logout

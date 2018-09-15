@@ -1,0 +1,9 @@
+{
+  "name": "@types/umi-locale",
+  "version": "2.0.0",
+  "main": "",
+  "dependencies": {
+    "@types/react": "*"
+  },
+  "license": "MIT"
+}
