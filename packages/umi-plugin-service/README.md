@@ -1,4 +1,8 @@
 # umi-plugin-service
+[![NPM version](https://img.shields.io/npm/v/@ddot/umi-plugin-service.svg?style=flat-square)](https://npmjs.org/package/@ddot/umi-plugin-service)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![MIT](https://img.shields.io/dub/l/vibe-d.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+
 
 `umi`服务接口插件。
 
@@ -42,10 +46,14 @@ auth.yaml
 ```yaml
 login:
    method: POST
-   url: /login/{oder}
+   url: /login
+```
 
-logout:
-   url: /logout
+user.yaml 
+
+```yaml
+getUser:
+  url: /login/{userId}/{info}
 ```
 
 ## 扩展API
@@ -53,20 +61,24 @@ logout:
 当使用本插件后，`umi`项目中会新增一个API: `@ddot/umi-service`，你可以通过引入这个新的API，获得关于服务接口功能在编程上的便利。
 
 ```javascript
-import { login, logout }  from '@ddot/umi-service'
+import { login, getUser } from "@ddot/umi-service";
 
-login({data})
-logout({data})
+login({ data });
+getUser({ userId: "", info: "" });
 ```
 
 ```javascript
-import { signIn } from "@ddot/umi-service";
+import { getUser } from "@ddot/umi-service";
 
 export default {
   effects: {
     *loginIn({ payload }, { call }) {
-      yield call(signIn, {
-        username: payload.username
+      yield call(login);
+    },
+    *getUser({ payload }, { call }) {
+      yield call(getUser, {
+        userId: payload.userId,
+        info: payload.info,
       });
     }
   }
