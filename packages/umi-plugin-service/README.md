@@ -22,9 +22,12 @@ export default {
 .
 ├── dist/                          
 ├── mock/                         
-└── src/                          
+└── src/                
     ├── layouts/index.js          
-    └── pages/                    
+    ├── pages/    
+    └── api                // 接口定义文件存放目录，里面的文件会被umi自动读取
+      ├── user.yaml
+      └── auth.yaml                   
 ├── .umirc.js                     
 ├── .umirc.service.yaml                     
 ├── .env                          
@@ -34,11 +37,9 @@ export default {
 
 ## 服务文件约定
 
-
-.umirc.service.yaml 
+auth.yaml 
 
 ```yaml
-
 login:
    method: POST
    url: /login/{oder}
@@ -49,13 +50,38 @@ logout:
 
 ## 扩展API
 
-当使用本插件后，`umi`项目中会新增一个API: `@umi/service`，你可以通过引入这个新的API，获得关于服务接口功能在编程上的便利。
+当使用本插件后，`umi`项目中会新增一个API: `@ddot/umi-service`，你可以通过引入这个新的API，获得关于服务接口功能在编程上的便利。
 
 ```javascript
-import service from '@umi/service'
+import { login, logout }  from '@ddot/umi-service'
 
-service.login({data})
+login({data})
+logout({data})
+```
 
-service.logout({data})
+```javascript
+import { signIn } from "@ddot/umi-service";
 
+export default {
+  effects: {
+    *loginIn({ payload }, { call }) {
+      yield call(signIn, {
+        username: payload.username
+      });
+    }
+  }
+};
+```
+
+## 追加ts提示
+
+
+tsconfig.json
+```json
+    ...
+    "baseUrl": ".",
+    "paths": {
+      "@ddot/umi-service": ["./src/pages/.umi/umi-service"],
+      ...
+    },
 ```

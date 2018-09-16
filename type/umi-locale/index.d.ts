@@ -1,3 +1,4 @@
+/// <reference types="react" />
 type formatValues = { [key: string]: string | number }
 declare const formatMessage: ({ id }: { id: string }, values?: formatValues) => string;
 declare const getLocale: () => string;

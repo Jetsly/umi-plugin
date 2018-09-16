@@ -1,0 +1,18 @@
+
+import axios from 'axios';
+
+
+{{#services}}
+/**
+ * {{key}} services
+ * @param data 
+ */
+export function {{key}}(data: { [key: string]: any } = {}) {
+  const { {{__restkey}} } = data;
+  return axios({
+    url: `{{&__url}}`, {{#method}}method:'{{method}}',{{/method}}
+    {{__dataKey}}: restData
+  });
+}
+
+{{/services}}

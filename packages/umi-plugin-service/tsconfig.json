@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
+    "outDir": "lib",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "suppressImplicitAnyIndexErrors": true,
@@ -9,5 +9,6 @@
     "target": "es5",
     "lib": ["es6", "es7"]
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["./src/**/*.spec.*"]
 }

@@ -1,36 +1,43 @@
-import { join } from 'path';
-import ServicePlugin, { getServiceFile } from './index';
-import * as assert from 'assert';
+import { join } from "path";
+import ServicePlugin, { getServices } from "./index";
 
-const absSrcPath = join(__dirname, '../examples');
-const file = '.umirc.service.yaml';
+import * as assert from "assert";
+import { readFileSync } from "fs";
+const absSrcPath = join(__dirname, "../examples");
+const dir = "api";
+const jsonfile = "service.json";
 
 const api = {
+  generateFiles() {},
   addPageWatcher() {},
   onOptionChange() {},
   rebuildTmpFiles() {},
   modifyAFWebpackOpts() {},
+  onGenerateFiles(generateFiles) {
+    api.generateFiles = generateFiles;
+  },
   paths: {
     absSrcPath,
-    absTmpDirPath: absSrcPath,
+    absTmpDirPath: absSrcPath
   },
   config: {
-    file,
+    dir
   },
+  service: {
+    cwd: absSrcPath
+  }
 };
 
-describe('test plugin', () => {
-  it('enable is true', () => {
-    ServicePlugin(api);
+describe("test func with file", () => {
+  it("getServices", () => {
+    const apiPath = join(absSrcPath, dir);
+    const list = getServices(apiPath);
+    const json = JSON.parse(readFileSync(join(absSrcPath, jsonfile), "utf-8"));
+    assert.deepStrictEqual(list, json);
   });
-});
 
-describe('test func with file', () => {
-  it('getServiceFile', () => {
-    const list = getServiceFile(absSrcPath, file);
-    assert.deepStrictEqual(list, {
-      login: { method: 'POST', url: '/login/{orderId}' },
-      logout: { url: '/logout' },
-    });
+  it("get tpl", () => {
+    ServicePlugin(api);
+    api.generateFiles();
   });
 });

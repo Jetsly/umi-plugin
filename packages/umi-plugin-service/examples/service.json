@@ -1,0 +1,8 @@
+[
+  { "key": "login", "method": "POST", "url": "/login" },
+  { "key": "logout", "url": "/logout" },
+  {
+    "key": "getUser",
+    "url": "/login/{userId}/{info}"
+  }
+]

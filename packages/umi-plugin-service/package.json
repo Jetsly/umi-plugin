@@ -1,13 +1,14 @@
 {
-  "name": "umi-plugin-service",
-  "version": "0.1.0",
+  "name": "@ddot/umi-plugin-service",
+  "version": "0.1.1",
   "description": "A umi plugin for provide service function.",
   "main": "./lib/index.js",
   "authors": [
     "jetsly <cnljli@live.com (https://github.com/jetsly)"
   ],
   "scripts": {
-    "test": "ts-mocha  src/**/*.spec.ts"
+    "test": "ts-mocha  src/**/*.spec.ts",
+    "prepublish": "tsc"
   },
   "repository": {
     "type": "git",
@@ -24,10 +25,12 @@
     "template"
   ],
   "keywords": [
-    "umi"
+    "umi",
+    "umi-plugin",
+    "plugin",
+    "service"
   ],
   "dependencies": {
-    "@umi/service": "^0.1.0",
     "axios": "^0.18.0",
     "js-yaml": "^3.12.0",
     "mustache": "^2.3.0"

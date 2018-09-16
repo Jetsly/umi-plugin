@@ -1,0 +1,3 @@
+# getuser
+getUser:
+  url: /login/{userId}/{info}
