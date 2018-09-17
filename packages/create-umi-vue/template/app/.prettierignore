@@ -2,5 +2,7 @@
 **/*.svg
 **/*.ejs
 **/*.html
+dist
 package.json
-**/template/app/.umirc.js
+.umi
+.umi-production

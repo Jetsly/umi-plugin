@@ -1,0 +1,45 @@
+{
+  "name": "@ddot/umi-plugin-vue",
+  "version": "0.0.1",
+  "description": "A umi plugin for support vuejs",
+  "main": "./lib/index.js",
+  "authors": [
+    "jetsly <cnljli@live.com (https://github.com/jetsly)"
+  ],
+  "scripts": {
+    "test": "ts-mocha  src/**/*.spec.ts",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jetsly/umi-plugin/tree/master/packages/umi-plugin-vue"
+  },
+  "homepage": "https://github.com/jetsly/umi-plugin/tree/master/packages/umi-plugin-vue",
+  "bugs": {
+    "url": "https://github.com/jetsly/umi-plugin/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src",
+    "template"
+  ],
+  "keywords": [
+    "umi",
+    "umi-plugin",
+    "plugin",
+    "vue"
+  ],
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.9.4",
+    "mocha": "^5.2.0",
+    "ts-mocha": "^2.0.0",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "vue": "^2.5.17",
+    "vue-loader": "^15.4.2",
+    "vue-template-compiler": "^2.5.17"
+  }
+}

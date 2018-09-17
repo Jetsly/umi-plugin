@@ -113,6 +113,10 @@ Temporary Items
 
 # End of https://www.gitignore.io/api/osx,node,visualstudiocode
 
-*.lock
-.yarnrc
-.npmrc
+# dependencies
+/yarn.lock
+/package-lock.json
+
+# umi
+.umi
+.umi-production
