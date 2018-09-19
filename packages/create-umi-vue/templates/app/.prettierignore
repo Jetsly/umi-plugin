@@ -3,6 +3,5 @@
 **/*.ejs
 **/*.html
 dist
-package.json
 .umi
 .umi-production

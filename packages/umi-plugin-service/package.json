@@ -1,6 +1,6 @@
 {
   "name": "@ddot/umi-plugin-service",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A umi plugin for provide service function.",
   "main": "./lib/index.js",
   "authors": [

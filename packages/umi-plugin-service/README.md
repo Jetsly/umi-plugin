@@ -8,13 +8,13 @@
 
 ## 配置
 
-**.umirc.service.yaml**
+**.umirc.js**
 
 ```js
 export default {
   plugins: [
     [
-      'umi-plugin-service'
+      '@ddot/umi-plugin-service'
     ]
   ]
 };

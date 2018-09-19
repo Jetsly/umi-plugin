@@ -1,9 +1,9 @@
 {
   "name": "create-umi-vue",
-  "version": "0.0.2",
+  "version": "0.0.8",
   "description": "Creates a vue UmiJS application using the command line.",
   "bin": {
-    "create-umi": "./bin/cli.js"
+    "create-umi-vue": "./bin/cli.js"
   },
   "dependencies": {
     "chalk": "^2.4.1",

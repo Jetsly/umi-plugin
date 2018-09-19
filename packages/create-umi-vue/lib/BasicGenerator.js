@@ -38,20 +38,16 @@ module.exports = class BasicGenerator extends Generator {
       this.destinationPath("mock")
     );
     this.fs.copy(
-      this.templatePath("app", "src", "assets"),
-      this.destinationPath("src/assets")
+      this.templatePath("app", "src", "pages"),
+      this.destinationPath("src/pages")
     );
     this.fs.copy(
       this.templatePath("app", "src", "layouts"),
       this.destinationPath("src/layouts")
     );
     this.fs.copy(
-      this.templatePath("app", "src", "pages"),
-      this.destinationPath("src/pages")
-    );
-    this.fs.copy(
-      this.templatePath("app", "src", "global.css"),
-      this.destinationPath("src/global.css")
+      this.templatePath("app", "src", "global.less"),
+      this.destinationPath("src/global.less")
     );
     this.fs.copyTpl(
       this.templatePath("app", "package.json"),
@@ -83,16 +79,5 @@ module.exports = class BasicGenerator extends Generator {
       this.templatePath("app", ".prettierignore"),
       this.destinationPath(".prettierignore")
     );
-
-    if (this.props.react.includes("dva")) {
-      this.fs.copy(
-        this.templatePath("app", "src", "models", ".*"),
-        this.destinationPath("src/models")
-      );
-      this.fs.copy(
-        this.templatePath("app", "src", "dva.js"),
-        this.destinationPath("src/dva.js")
-      );
-    }
   }
 };

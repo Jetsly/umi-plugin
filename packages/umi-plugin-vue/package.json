@@ -1,6 +1,6 @@
 {
   "name": "@ddot/umi-plugin-vue",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A umi plugin for support vuejs",
   "main": "./lib/index.js",
   "authors": [
@@ -28,7 +28,8 @@
     "umi",
     "umi-plugin",
     "plugin",
-    "vue"
+    "vue",
+    "vue-router"
   ],
   "devDependencies": {
     "@types/mocha": "^5.2.5",
@@ -38,8 +39,10 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
+    "umi-utils": "^0.2.2",
     "vue": "^2.5.17",
     "vue-loader": "^15.4.2",
+    "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.17"
   }
 }

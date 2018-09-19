@@ -16,26 +16,43 @@ var __assign =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = require("path");
+var getRouteConfigFromDir_1 = require("./getRouteConfigFromDir");
+var excludeRoute_1 = require("./excludeRoute");
 var VueLoaderPlugin = require("vue-loader/lib/plugin");
+var routerVue = "require('./router').default";
 function template(path) {
   return path_1.join(__dirname, "../template", path);
 }
-function default_1(api, options) {
+function optsToArray(item) {
+  if (!item) return [];
+  if (Array.isArray(item)) {
+    return item;
+  } else {
+    return [item];
+  }
+}
+function default_1(api, opts) {
+  if (opts === void 0) {
+    opts = {
+      routes: {
+        exclude: []
+      }
+    };
+  }
   var service = api.service,
     config = api.config,
     paths = api.paths;
   var mountElementId = config.mountElementId || "root";
   service.paths = __assign({}, service.paths, {
     defaultEntryTplPath: template("entry.js.mustache"),
-    defaultRouterTplPath: template("empty.js.mustache"),
+    defaultRouterTplPath: template("router.js.mustache"),
     defaultDocumentPath: template("document.ejs")
   });
   api.modifyRoutes(function(memo) {
-    return [
-      {
-        path: "/"
-      }
-    ];
+    return excludeRoute_1.default(
+      getRouteConfigFromDir_1.default(paths),
+      optsToArray(opts.routes ? opts.routes.exclude : [])
+    );
   });
   api.chainWebpackConfig(function(webpackConfig) {
     webpackConfig.resolve.extensions.merge([".vue"]);
@@ -58,15 +75,18 @@ function default_1(api, options) {
   });
   api.modifyEntryRender(function() {
     return (
-      '  new Vue({\n      el: "#' +
+      "new Vue({\n    router: " +
+      routerVue +
+      ",\n    render (h) {\n      return h('router-view')\n    }\n  }).$mount('#" +
       mountElementId +
-      "\",\n      render (h) {\n        return h(require('" +
-      paths.absSrcPath +
-      "pages/index').default)\n      }\n    }); "
+      "'); "
     );
   });
   api.modifyEntryHistory(function() {
-    return "undefined";
+    return routerVue + ".history";
+  });
+  api.modifyRouterRootComponent(function() {
+    return config.history || "history";
   });
 }
 exports.default = default_1;
