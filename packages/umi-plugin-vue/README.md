@@ -8,14 +8,82 @@
 
 ## 配置
 
-**.umirc.js**
+**.umirc.js** 
+
+`@ddot/umi-plugin-vue` 插件默认配置
 
 ```js
 export default {
   plugins: [
     [
-      '@ddot/umi-plugin-vue'
+      '@ddot/umi-plugin-vue',
+      {
+        dva: {
+          immer: true,
+        },
+        routes: {
+          exclude: [/model/],
+        },
+      }
     ]
   ]
 };
 ```
+
+
+## 扩展API
+
+当使用本插件后，`umi`项目中会新增一个API: `@ddot/umi-vue`
+
+```html
+<template>
+  <div>
+    Hello, {{ isAuth }} {{ name }}! <br />
+    <button @click="onClick">touch me</button>
+  </div>
+</template>
+<script>
+import { mapState, dispatch } from '@ddot/umi-vue'
+export default {
+  computed: {
+    ...mapState({
+      isAuth: state => state.model.isAuth,
+    }),
+    ...mapState('model',[
+      'name'
+    ])
+  },
+  methods: {
+    onClick() {
+      dispatch({type:'model/logout'})
+    },
+  },
+};
+</script>
+```
+
+```javascript
+export default {
+  namespace: 'model',
+  state: {
+    isAuth: false,
+    name: 'ddot', 
+  },
+  reducers: {
+    changeAuth(state) {
+      state.isAuth  = true;
+    },
+  },
+  effects: {
+    *logout(_, { call, put }) {
+      yield put({
+        type: 'changeAuth',
+      });
+    },
+  },
+};
+
+```
+
+
+

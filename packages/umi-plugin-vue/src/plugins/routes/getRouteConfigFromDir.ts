@@ -1,9 +1,8 @@
 // https://github.com/umijs/umi/blob/master/packages/umi-build-dev/src/routes/getRouteConfigFromDir.js
-import { readdirSync, statSync, existsSync } from "fs";
+import { readdirSync, statSync } from "fs";
 import { join, extname, basename, relative } from "path";
 import { winPath } from "umi-utils";
-
-const JS_EXTNAMES = [".vue"];
+import { findJSFile, isValidJS } from "../../utils";
 
 export default function getRouteConfigFromDir(paths) {
   const { cwd, absPagesPath, absSrcPath, dirPath = "" } = paths;
@@ -122,22 +121,8 @@ function normalizePath(path) {
   return newPath;
 }
 
-function findJSFile(baseDir, fileNameWithoutExtname) {
-  for (const extname of JS_EXTNAMES) {
-    const fileName = `${fileNameWithoutExtname}${extname}`;
-    const absFilePath = join(baseDir, fileName);
-    if (existsSync(absFilePath)) {
-      return absFilePath;
-    }
-  }
-}
-
 function addRoute(memo, route, { componentFile }) {
   memo.push({
     ...route
   });
-}
-
-function isValidJS(file) {
-  return JS_EXTNAMES.includes(extname(file));
 }
