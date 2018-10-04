@@ -15,6 +15,7 @@ var fs_1 = require("fs");
 var path_1 = require("path");
 var uniq = require("lodash.uniq");
 var mustache_1 = require("mustache");
+var globby_1 = require("globby");
 var umi_utils_1 = require("umi-utils");
 var utils_1 = require("../../utils");
 var JS_EXTNAMES = [".js", ".ts"];
@@ -50,7 +51,11 @@ function getModelName(model) {
 }
 function getModel(cwd, api) {
     var modelJSPath = utils_1.findJSFile(cwd, "model", JS_EXTNAMES);
-    return modelJSPath ? [umi_utils_1.winPath(modelJSPath)] : [];
+    return modelJSPath
+        ? [umi_utils_1.winPath(modelJSPath)]
+        : globby_1.sync("./models/**/*.{ts,js}", { cwd: cwd })
+            .filter(function (p) { return p.indexOf(".test.") === -1 && p.indexOf(".d.") === -1; })
+            .map(function (p) { return umi_utils_1.winPath(path_1.join(cwd, p)); });
 }
 function getPageModels(cwd, api) {
     var models = [];
@@ -85,7 +90,8 @@ function addVersionInfo(api) {
     api.addVersionInfo([
         "dva-core@" + require(path_1.join(dvaDir, "package.json")).version + " (" + dvaDir + ")",
         "dva-loading@" + require("dva-loading/package").version,
-        "dva-immer@" + require("dva-immer/package").version
+        "dva-immer@" + require("dva-immer/package").version,
+        "@ddot/umi-vue@" + require("@ddot/umi-vue/package").version
     ]);
 }
 function addPageWatcher(api) {
@@ -102,9 +108,10 @@ function default_1(api, opts) {
         exclude: [],
         shouldImportDynamic: false
     }; }
-    var paths = api.paths;
+    var config = api.config, paths = api.paths;
     addVersionInfo(api);
     addPageWatcher(api);
+    api.addRuntimePluginKey("dva");
     function getDvaJS() {
         var dvaJS = utils_1.findJSFile(paths.absSrcPath, "dva", JS_EXTNAMES);
         if (dvaJS) {
@@ -130,7 +137,7 @@ function default_1(api, opts) {
         var dvaJS = getDvaJS();
         var wrapperContent = mustache_1.render(wrapperTpl, {
             ExtendDvaConfig: dvaJS
-                ? "...((require('" + dvaJS + "').config || (() => ({})))())"
+                ? "...((require('" + dvaJS + "').config || (() => ({})))()),"
                 : "",
             RegisterPlugins: getPluginContent(),
             RegisterModels: getGlobalModelContent()
@@ -138,9 +145,27 @@ function default_1(api, opts) {
         var wrapperPath = path_1.join(paths.absTmpDirPath, tplfile);
         fs_1.writeFileSync(wrapperPath, wrapperContent, "utf-8");
     });
-    /** 修改配置文件 */
-    api.modifyAFWebpackOpts(function (memo) {
-        return __assign({}, memo, { alias: __assign({}, (memo.alias || {}), { "@ddot/umi-vue": path_1.join(paths.absTmpDirPath, tplfile) }) });
+    api.modifyEntryRender(function (entry) {
+        return "\n  require('@tmp/" + tplfile + "')\n    " + entry;
     });
+    if (opts.shouldImportDynamic) {
+        api.addRouterImport({
+            source: "@ddot/umi-vue/dynamic",
+            specifier: "_dvaDynamic"
+        });
+        api.modifyAFWebpackOpts(function (opts) {
+            return __assign({}, opts, { disableDynamicImport: false });
+        });
+        api.modifyRouteComponent(function (memo, args) {
+            var importPath = args.importPath, component = args.component;
+            var models = getPageModels(path_1.join(paths.absTmpDirPath, importPath), api);
+            var extendStr = "/* webpackChunkName: ^" + utils_1.chunkName(paths.cwd, component) + "^ */";
+            return ("_dvaDynamic({\n          models: () => [\n            " + models
+                .map(function (model) {
+                return "import(/* webpackChunkName: '" + utils_1.chunkName(paths.cwd, model) + "' */'" + path_1.relative(paths.absTmpDirPath, model) + "')";
+            })
+                .join(",\r\n  ") + "\n          ],\n          component: () => import(" + extendStr + "'" + importPath + "'),\n        })").trim();
+        });
+    }
 }
 exports.default = default_1;

@@ -7,17 +7,17 @@
     "lint": "pretty-quick --staged"
   },
   "devDependencies": {
-    "@ddot/umi-plugin-vue": "^0.0.5",
+    "@ddot/umi-plugin-vue": "^0.0.7",
     "eslint": "^5.6.0",
     "eslint-plugin-vue": "^5.0.0-beta.3",
     "husky": "^1.0.0-rc.14",
     "prettier": "^1.14.2",
     "pretty-quick": "^1.6.0",
-    "umi": "^2.0.3"
+    "umi": "^2.1.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "engines": {

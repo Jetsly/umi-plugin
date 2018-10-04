@@ -38,16 +38,24 @@ module.exports = class BasicGenerator extends Generator {
       this.destinationPath("mock")
     );
     this.fs.copy(
-      this.templatePath("app", "src", "pages"),
-      this.destinationPath("src/pages")
-    );
-    this.fs.copy(
       this.templatePath("app", "src", "layouts"),
       this.destinationPath("src/layouts")
     );
     this.fs.copy(
+      this.templatePath("app", "src", "models"),
+      this.destinationPath("src/models")
+    );
+    this.fs.copy(
+      this.templatePath("app", "src", "pages", "index"),
+      this.destinationPath("src/pages/index")
+    );
+    this.fs.copy(
       this.templatePath("app", "src", "global.less"),
       this.destinationPath("src/global.less")
+    );
+    this.fs.copyTpl(
+      this.templatePath("app", "tsconfig.json"),
+      this.destinationPath("tsconfig.json"),
     );
     this.fs.copyTpl(
       this.templatePath("app", "package.json"),

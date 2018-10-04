@@ -1,3 +1,4 @@
+import { join } from "path";
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 const routerVue = `require('./router').default`;
@@ -30,13 +31,13 @@ export default function(api) {
     return webpackConfig;
   });
 
+  api.addRuntimePlugin(join(__dirname, "./runtime"));
+
   api.modifyEntryRender(() => {
-    return `new Vue({
-        router: ${routerVue},
-        render (h) {
-          return h('router-view')
-        }
-      }).$mount('#${mountElementId}'); `;
+    return `
+    window.g_plugins.apply('rootContainer', {
+      initialValue: ${routerVue},
+    }).$mount('#${mountElementId}');`;
   });
 
   api.modifyEntryHistory(() => {

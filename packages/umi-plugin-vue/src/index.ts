@@ -2,16 +2,18 @@ import { join } from "path";
 
 const defaultOpts = {
   dva: {
-    immer: true,
-    dynamicImport: true
+    immer: true
   },
   routes: {
     exclude: [/model/]
   },
-  locale: {
-    default: "en-US"
+  dll: {
+    include: []
   },
-  hardSource: false
+  dynamicImport: {
+    webpackChunkName: true
+  },
+  hardSource: true
 };
 
 function template(path) {
@@ -43,8 +45,20 @@ export default function(api, options) {
     `vue-template-compiler@${require("vue-template-compiler/package").version}`
   ]);
 
+  api.modifyAFWebpackOpts(memo => {
+    return {
+      ...memo,
+      alias: {
+        ...(memo.alias || {}),
+        "@ddot/umi-vue/dynamic": "@ddot/umi-vue/lib/dynamic.js"
+      }
+    };
+  });
+
   const plugins = {
     hardSource: () => require("./plugins/hardSource").default,
+    dll: () => require("./plugins/dll").default,
+
     routes: () => require("./plugins/routes").default,
     dva: () => require("./plugins/dva").default
   };
@@ -57,6 +71,20 @@ export default function(api, options) {
   Object.keys(plugins).forEach(key => {
     if (option[key]) {
       let opts = option[key];
+
+      if (key === "dll") {
+        const havDva = option["dva"] ? ["dva-core", "dva-immer"] : [];
+        opts.include = (opts.include || []).concat([
+          "vue",
+          "vue-router",
+          ...havDva
+        ]);
+      } else if (key === "dva") {
+        opts = {
+          ...opts,
+          shouldImportDynamic: option.dynamicImport
+        };
+      }
 
       api.registerPlugin({
         id: getId(key),

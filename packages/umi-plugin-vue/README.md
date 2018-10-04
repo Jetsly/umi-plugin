@@ -24,6 +24,12 @@ export default {
         routes: {
           exclude: [/model/],
         },
+        dll: {
+          include: []
+        },
+        dynamicImport: {
+          webpackChunkName: true
+        }
       }
     ]
   ]

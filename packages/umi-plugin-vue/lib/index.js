@@ -14,16 +14,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = require("path");
 var defaultOpts = {
     dva: {
-        immer: true,
-        dynamicImport: true
+        immer: true
     },
     routes: {
         exclude: [/model/]
     },
-    locale: {
-        default: "en-US"
+    dll: {
+        include: []
     },
-    hardSource: false
+    dynamicImport: {
+        webpackChunkName: true
+    },
+    hardSource: true
 };
 function template(path) {
     return path_1.join(__dirname, "../template", path);
@@ -38,10 +40,14 @@ function default_1(api, options) {
     api.addVersionInfo([
         "vue@" + require("vue/package").version,
         "vue-router@" + require("vue-router/package").version,
-        "vue-template-compiler@" + require("vue-template-compiler/package").version
+        "vue-template-compiler@" + require("vue-template-compiler/package").version,
     ]);
+    api.modifyAFWebpackOpts(function (memo) {
+        return __assign({}, memo, { alias: __assign({}, (memo.alias || {}), { "@ddot/umi-vue/dynamic": "@ddot/umi-vue/lib/dynamic.js" }) });
+    });
     var plugins = {
         hardSource: function () { return require("./plugins/hardSource").default; },
+        dll: function () { return require("./plugins/dll").default; },
         routes: function () { return require("./plugins/routes").default; },
         dva: function () { return require("./plugins/dva").default; }
     };
@@ -52,6 +58,16 @@ function default_1(api, options) {
     Object.keys(plugins).forEach(function (key) {
         if (option[key]) {
             var opts = option[key];
+            if (key === "dll") {
+                var havDva = option["dva"] ? ["dva-core", "dva-immer"] : [];
+                opts.include = (opts.include || []).concat([
+                    "vue",
+                    "vue-router"
+                ].concat(havDva));
+            }
+            else if (key === "dva") {
+                opts = __assign({}, opts, { shouldImportDynamic: option.dynamicImport });
+            }
             api.registerPlugin({
                 id: getId(key),
                 apply: plugins[key](),

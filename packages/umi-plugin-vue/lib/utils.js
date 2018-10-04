@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = require("fs");
 var path_1 = require("path");
+var umi_utils_1 = require("umi-utils");
 var JS_EXTNAMES = [".vue"];
 function findJSFile(baseDir, fileNameWithoutExtname, fileExt) {
     if (fileExt === void 0) { fileExt = JS_EXTNAMES; }
@@ -34,3 +35,26 @@ function endWithSlash(path) {
     return path.slice(-1) !== "/" ? path + "/" : path;
 }
 exports.endWithSlash = endWithSlash;
+function stripFirstSlash(path) {
+    if (path.charAt(0) === "/") {
+        return path.slice(1);
+    }
+    else {
+        return path;
+    }
+}
+function chunkName(cwd, path) {
+    return normalizeEntry(stripFirstSlash(umi_utils_1.winPath(path).replace(umi_utils_1.winPath(cwd), "")))
+        .replace(/^src__/, "")
+        .replace(/^pages__/, "p__")
+        .replace(/^page__/, "p__");
+}
+exports.chunkName = chunkName;
+function normalizeEntry(entry) {
+    return entry
+        .replace(/^.(\/|\\)/, "")
+        .replace(/(\/|\\)/g, "__")
+        .replace(/\.jsx?$/, "")
+        .replace(/\.vue$/, "")
+        .replace(/\.tsx?$/, "");
+}

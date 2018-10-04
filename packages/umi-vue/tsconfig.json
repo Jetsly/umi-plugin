@@ -4,7 +4,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "suppressImplicitAnyIndexErrors": true,
-    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "./",
     "module": "commonjs",
     "target": "es5",
     "lib": ["es6", "es7", "dom"]

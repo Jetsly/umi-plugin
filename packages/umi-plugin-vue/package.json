@@ -1,6 +1,6 @@
 {
   "name": "@ddot/umi-plugin-vue",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "A umi plugin for support vuejs",
   "main": "./lib/index.js",
   "authors": [
@@ -21,7 +21,6 @@
   "license": "MIT",
   "files": [
     "lib",
-    "src",
     "template"
   ],
   "keywords": [
@@ -40,11 +39,10 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
-    "dva-core": "^1.4.0",
+    "@ddot/umi-vue": "^0.0.4",
     "dva-immer": "^0.2.3",
     "dva-loading": "^2.0.5",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.isequal": "^4.5.0",
+    "globby": "^7.1.1",
     "lodash.uniq": "^4.5.0",
     "mustache": "^3.0.0",
     "umi-plugin-dll": "^1.0.1",
