@@ -1,4 +1,4 @@
-# umi-plugin
+# umi-plugin (已废弃,不维护)
 
 ### template
 
